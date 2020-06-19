@@ -116,87 +116,50 @@ function groupAnswers(outcomes) {
     return result;
 }
 
-// format it to number used in form, for easy reading
-function formatOutcomes(outcomes) {
-    // expecting them in this shape:
-    // { a: [ [0,0,0,0], [0,0,0,1], ...], b: [ [ 1, 0, 1, 2], [1, 0, 1, 3], ...], ...}
-    // an object containing seven properties, each a two-dimensional array with the inner arrays being actual answers
-
+// make the array a number so the form can work with it...
+function translateToNumbers(answers) {
     const answersAsNumbers = [1, 10, 100, 1000, 10000, 100000, 1000000];
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-    const a = outcomes.a.map(answers => {
-        const translatedToNumbers = answers.map(answer => answersAsNumbers[answer]);
-        const outcomeAsNumber = translatedToNumbers.reduce(reducer);
-        return outcomeAsNumber;
-    });
-    const distinctA = a.filter(distinct);
+    const translatedToNumbers = answers.map(answer => answersAsNumbers[answer]);
+    const outcomeAsNumber = translatedToNumbers.reduce(reducer);
 
-    const b = outcomes.b.map(answers => {
-        const translatedToNumbers = answers.map(answer => answersAsNumbers[answer]);
-        const outcomeAsNumber = translatedToNumbers.reduce(reducer);
-        return outcomeAsNumber;
-    });
-    const distinctB = b.filter(distinct);
+    return outcomeAsNumber
+}
 
-    const c = outcomes.c.map(answers => {
-        const translatedToNumbers = answers.map(answer => answersAsNumbers[answer]);
-        const outcomeAsNumber = translatedToNumbers.reduce(reducer);
-        return outcomeAsNumber;
-    });
-    const distinctC = c.filter(distinct);
-
-    const d = outcomes.d.map(answers => {
-        const translatedToNumbers = answers.map(answer => answersAsNumbers[answer]);
-        const outcomeAsNumber = translatedToNumbers.reduce(reducer);
-        return outcomeAsNumber;
-    });
-    const distinctD = d.filter(distinct);
-
-    const e = outcomes.e.map(answers => {
-        const translatedToNumbers = answers.map(answer => answersAsNumbers[answer]);
-        const outcomeAsNumber = translatedToNumbers.reduce(reducer);
-        return outcomeAsNumber;
-    });
-    const distinctE = e.filter(distinct);
-
-    const f = outcomes.f.map(answers => {
-        const translatedToNumbers = answers.map(answer => answersAsNumbers[answer]);
-        const outcomeAsNumber = translatedToNumbers.reduce(reducer);
-        return outcomeAsNumber;
-    });
-    const distinctF = f.filter(distinct);
-
-    const g = outcomes.g.map(answers => {
-        const translatedToNumbers = answers.map(answer => answersAsNumbers[answer]);
-        const outcomeAsNumber = translatedToNumbers.reduce(reducer);
-        return outcomeAsNumber;
-    });
-    const distinctG = g.filter(distinct);
+// format it to number used in form, for easy reading
+function formatOutcomes(outcomes) {
+    const a = outcomes.a.map(answers => translateToNumbers(answers)).filter(distinct);
+    const b = outcomes.b.map(answers => translateToNumbers(answers)).filter(distinct);
+    const c = outcomes.c.map(answers => translateToNumbers(answers)).filter(distinct);
+    const d = outcomes.d.map(answers => translateToNumbers(answers)).filter(distinct);
+    const e = outcomes.e.map(answers => translateToNumbers(answers)).filter(distinct);
+    const f = outcomes.f.map(answers => translateToNumbers(answers)).filter(distinct);
+    const g = outcomes.g.map(answers => translateToNumbers(answers)).filter(distinct);
 
     const text = `
         here are the outcomes grouped together \n
         \n
         [A Block]\n
-        ${distinctA}\n
+        ${a}\n
         \n
         [B Block]\n
-        ${distinctB}\n
+        ${b}\n
         \n
         [C Block]\n
-        ${distinctC}\n
+        ${c}\n
         \n
         [D Block]\n
-        ${distinctD}\n
+        ${d}\n
         \n
         [E Block]\n
-        ${distinctE}\n
+        ${e}\n
         \n
         [F Block]\n
-        ${distinctF}\n
+        ${f}\n
         \n
         [G Block]\n
-        ${distinctG}\n
+        ${g}\n
         \n
     `;
 
